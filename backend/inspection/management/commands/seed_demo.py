@@ -24,16 +24,18 @@ class Command(BaseCommand):
             self.stdout.write("already seeded")
             return
         samples = [
-            ("LH-01", 1400, 1200, 0.4),
-            ("LH-09", 800, 1200, 0.2),
+            ("LH-01", 1400, 1200, 0.4, 30, 3),
+            ("LH-09", 800, 1200, 0.2, 20, 4),
         ]
-        for code, measured, required, bearing in samples:
-            verdict, note = judge(measured, required, bearing)
+        for code, measured, required, bearing, flash_rate, period in samples:
+            verdict, note = judge(measured, required, bearing, period)
             Inspection.objects.create(
                 aid_code=code,
                 measured_cd=measured,
                 required_cd=required,
                 bearing_error_deg=bearing,
+                flash_rate_fpm=flash_rate,
+                period_sec=period,
                 verdict=verdict,
                 note=note,
                 created_by="keeper",
