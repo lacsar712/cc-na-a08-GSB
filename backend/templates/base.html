@@ -24,6 +24,7 @@
     {% if user.is_authenticated %}
       <a href="{% url 'list' %}">巡检记录</a>
       {% if can_write %}<a href="{% url 'create' %}">登记</a>{% endif %}
+      {% if can_write %}<a href="{% url 'gate_ledger' %}">周期门禁册</a>{% endif %}
       <span style="margin-left:auto">{{ user.username }}</span>
       <a href="{% url 'logout' %}">退出</a>
     {% endif %}

@@ -1,17 +1,21 @@
 {% extends "base.html" %}
 {% block body %}
-<h1>登记巡检</h1>
+<h1>{% if row %}改正巡检{% else %}登记巡检{% endif %}</h1>
 {% if error %}<p class="err">{{ error }}</p>{% endif %}
-<form class="card" method="post">
+<form class="card" method="post" action="{% if row %}{% url 'edit' row.pk %}{% else %}{% url 'create' %}{% endif %}">
   {% csrf_token %}
   <label>航标编号</label>
-  <input name="aid_code" />
+  <input name="aid_code" value="{{ row.aid_code|default_if_none:'' }}" />
   <label>实测光强（坎德拉）</label>
-  <input name="measured_cd" type="number" step="0.1" />
+  <input name="measured_cd" type="number" step="0.1" value="{% if row %}{{ row.measured_cd|stringformat:'g' }}{% endif %}" />
   <label>要求光强</label>
-  <input name="required_cd" type="number" step="0.1" value="1200" />
+  <input name="required_cd" type="number" step="0.1" value="{% if row %}{{ row.required_cd|stringformat:'g' }}{% else %}1200{% endif %}" />
   <label>方位偏差（度）</label>
-  <input name="bearing_error_deg" type="number" step="0.1" value="0" />
-  <button type="submit">提交</button>
+  <input name="bearing_error_deg" type="number" step="0.1" value="{% if row %}{{ row.bearing_error_deg|stringformat:'g' }}{% else %}0{% endif %}" />
+  <label>每分钟闪次（次/分）</label>
+  <input name="flash_per_min" type="number" step="0.1" value="{% if row %}{{ row.flash_per_min|stringformat:'g' }}{% endif %}" />
+  <label>周期秒（2至10秒放行）</label>
+  <input name="period_sec" type="number" step="0.1" value="{% if row %}{{ row.period_sec|stringformat:'g' }}{% endif %}" />
+  <button type="submit">{% if row %}保存改正{% else %}提交{% endif %}</button>
 </form>
 {% endblock %}

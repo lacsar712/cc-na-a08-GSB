@@ -9,4 +9,6 @@ urlpatterns = [
     path("", views.list_view, name="list"),
     path("inspections/new/", views.create_view, name="create"),
     path("inspections/<int:pk>/", views.detail_view, name="detail"),
+    path("inspections/<int:pk>/correct/", views.edit_view, name="edit"),
+    path("period-gate/", views.gate_ledger_view, name="gate_ledger"),
 ]
